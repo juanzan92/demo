@@ -2,10 +2,9 @@ package model;
 
 
 import exception.IllegalInsertException;
+import exception.NotFoundException;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
@@ -53,7 +52,7 @@ public class CategoryGraph {
         //Search the node by id
         CategoryNode node = getNode(id, root);
         if (nonNull(node)) {
-            getLevels(root, id);
+            getLevels(id);
             return node.keywords;
         }
 
@@ -77,32 +76,31 @@ public class CategoryGraph {
         return null;
     }
 
-    public int getLevels(CategoryNode node, int id) {
+    public int getLevels(int id) {
         //If searched node is root return 0
         if (root.getId() == id) {
             return 0;
         }
         //Search for the node and with aux variable calculate the levels
-        for (CategoryNode child : root.getChildren()) {
-            int childrenLevel = child.getId() == id ? +0 : getLevels(child, id);
-            if (childrenLevel >= 0) {
-                return childrenLevel + 1;
+        Queue<CategoryNode> queue = new LinkedList<>();
+        int level = 0;
+
+        queue.offer(root);
+
+        while (!queue.isEmpty()) {
+            int levelSize = queue.size();
+
+            for (int i = 0; i < levelSize; i++) {
+                CategoryNode node = queue.poll();
+                if (node.getId() == id) {
+                    return level;
+                }
+                queue.addAll(node.getChildren());
             }
+            level++;
         }
 
         //Graph Not initialize
-        return -1;
+        throw new NotFoundException("Node with id " + id + " not found");
     }
-
-    private List<String> getParentKeywords(int id) {
-        List<String> parentKeywords = new ArrayList<>();
-        CategoryNode targetNode = getNode(id, root);
-
-        if (nonNull(targetNode)){
-            //collectK(targetNode, parentKeywords);
-        }
-        return parentKeywords;
-    }
-
-
 }

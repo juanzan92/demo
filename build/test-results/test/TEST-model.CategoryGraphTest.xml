@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="model.CategoryGraphTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2023-05-18T16:48:22" hostname="juanzan-mac.local" time="0.003">
+<testsuite name="model.CategoryGraphTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2023-05-18T17:17:39" hostname="juanzan-mac.local" time="0.008">
   <properties/>
-  <testcase name="searchKeywords" classname="model.CategoryGraphTest" time="0.002"/>
-  <testcase name="searchKeywordsNotFound" classname="model.CategoryGraphTest" time="0.001"/>
-  <testcase name="insertCategory" classname="model.CategoryGraphTest" time="0.0"/>
+  <testcase name="nodeNotFoundException" classname="model.CategoryGraphTest" time="0.008"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

@@ -1,5 +1,6 @@
 package model;
 
+import exception.NotFoundException;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -45,6 +46,7 @@ public class CategoryGraphTest {
         assertTrue(nonNull(searchedKeywords));
         assertTrue(searchedKeywords.contains("Home"));
     }
+
     @Test
     public void searchKeywordsNotFound() {
         //Given
@@ -55,5 +57,25 @@ public class CategoryGraphTest {
         //Then
         assertTrue(nonNull(searchedKeywords));
         assertFalse(searchedKeywords.contains("Garden"));
+    }
+
+    @Test
+    public void getLevels() {
+        //Given
+        var searchedNodeId = 2;
+        //When
+        var levels = categories.getLevels( searchedNodeId);
+
+        //Then
+        assertEquals(levels, 1);
+    }
+
+    @Test(expected = NotFoundException.class)
+    public void nodeNotFoundException() {
+        //Given
+        var searchedNodeId = 10;
+        //When
+        categories.getLevels( searchedNodeId);
+
     }
 }
