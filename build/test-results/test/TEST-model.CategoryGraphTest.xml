@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="model.CategoryGraphTest" tests="1" skipped="1" failures="0" errors="0" timestamp="2023-05-18T16:26:42" hostname="juanzan-mac.local" time="50.514">
+  <properties/>
+  <testcase name="searchKeywords" classname="model.CategoryGraphTest" time="50.514">
+    <skipped/>
+  </testcase>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
