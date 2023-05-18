@@ -12,28 +12,19 @@ public class CategoryGraphTest {
 
     private CategoryGraph categories;
 
-    /*
-    Lawn & Garden has keywords "Lawn", "Garden", "GardeningTools".
-     If a certain category is missing keywords, it needs to inherit it from the parent.
-     Assume that there is a Root Category that is at the highest level with a default set of keywords.
-
-Home appliances have sub categories like Major Appliances, Minor Appliances, Lawn & Garden
-     */
     @Before
     public void setUp() throws Exception {
         categories = new CategoryGraph();
 
-        var gardenKeywords = List.of("Lawn", "Garden");
-        var applianceKeyword = List.of("Appliances");
-
         categories.insert(1, List.of("Home", "Appliance"), "Home&Appliances");
-        categories.insert(101, List.of("Tv", "Freezer"), "Mayor Appliances");
+        categories.insert(2, List.of("Tv", "Freezer"), "Mayor Appliances");
+        categories.insert(4, List.of("Lawn", "Garden"), "Lawn&Garden");
     }
 
     @Test
     public void insertCategory() {
         // Given
-        int nodeId = 103;
+        int nodeId = 3;
 
         //When
         var insertedNode = categories.insert(nodeId, List.of(""), "Minor Appliances");
@@ -46,12 +37,23 @@ Home appliances have sub categories like Major Appliances, Minor Appliances, Law
     @Test
     public void searchKeywords() {
         //Given
-        var searchedNodeId = 101;
+        var searchedNodeId = 2;
         //When
-        var searchedKeywords = categories.getKeywords(101);
+        var searchedKeywords = categories.getKeywords(2);
+
         //Then
-
         assertTrue(nonNull(searchedKeywords));
+        assertTrue(searchedKeywords.contains("Home"));
+    }
+    @Test
+    public void searchKeywordsNotFound() {
+        //Given
+        var searchedNodeId = 2;
+        //When
+        var searchedKeywords = categories.getKeywords(2);
 
+        //Then
+        assertTrue(nonNull(searchedKeywords));
+        assertFalse(searchedKeywords.contains("Garden"));
     }
 }

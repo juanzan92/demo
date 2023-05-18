@@ -3,6 +3,7 @@ package model;
 
 import exception.IllegalInsertException;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -25,12 +26,12 @@ public class CategoryGraph {
             root.setKeywords(keywords);
         } else {
             //Insert the new node with recursive add of keywords
-           return insertOrdered(root, id, keywords, name);
+            return insertOrdered(root, id, keywords, name);
         }
         return null;
     }
 
-    private CategoryNode insertOrdered(CategoryNode root, int id, List<String> keyword, String name) {
+    private CategoryNode insertOrdered(CategoryNode parent, int id, List<String> keyword, String name) {
         //First i check if the node already exist.
         for (CategoryNode child : root.children) {
             if (child.id == id) {
@@ -39,10 +40,11 @@ public class CategoryGraph {
         }
 
         //Initilize the new Node with input parameters
-        //Recieved all the keywords from parent for serching.
+        //Recieved all the keywords from parent for searching.
         CategoryNode newNode = new CategoryNode(id, name);
         newNode.getKeywords().addAll(keyword);
-        root.getChildren().add(newNode);
+        newNode.getKeywords().addAll(parent.getKeywords());
+        parent.getChildren().add(newNode);
         return newNode;
     }
 
@@ -67,7 +69,7 @@ public class CategoryGraph {
 
         //Search throw all root children node recursively
         for (CategoryNode child : root.children) {
-            CategoryNode foundNode = getNode(id, child);
+            CategoryNode foundNode = child.getId() == id ? child : getNode(id, child);
             if (nonNull(foundNode)) {
                 return foundNode;
             }
@@ -82,7 +84,7 @@ public class CategoryGraph {
         }
         //Search for the node and with aux variable calculate the levels
         for (CategoryNode child : root.getChildren()) {
-            int childrenLevel = getLevels(child, id);
+            int childrenLevel = child.getId() == id ? +0 : getLevels(child, id);
             if (childrenLevel >= 0) {
                 return childrenLevel + 1;
             }
@@ -91,4 +93,16 @@ public class CategoryGraph {
         //Graph Not initialize
         return -1;
     }
+
+    private List<String> getParentKeywords(int id) {
+        List<String> parentKeywords = new ArrayList<>();
+        CategoryNode targetNode = getNode(id, root);
+
+        if (nonNull(targetNode)){
+            //collectK(targetNode, parentKeywords);
+        }
+        return parentKeywords;
+    }
+
+
 }
