@@ -76,6 +76,5 @@ public class CategoryGraphTest {
         var searchedNodeId = 10;
         //When
         categories.getLevels( searchedNodeId);
-
     }
 }

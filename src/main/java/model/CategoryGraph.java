@@ -9,7 +9,7 @@ import java.util.*;
 import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
 
-public class CategoryGraph {
+public class CategoryGraph implements SearchableGraph {
 
     CategoryNode root;
 
@@ -18,6 +18,8 @@ public class CategoryGraph {
         this.root = null;
     }
 
+
+    @Override
     public CategoryNode insert(int id, List<String> keywords, String name) {
         if (isNull(root)) {
             //check if there is a root or if is the first element of the graph
@@ -47,10 +49,10 @@ public class CategoryGraph {
         return newNode;
     }
 
-
+    @Override
     public List<String> getKeywords(int id) {
         //Search the node by id
-        CategoryNode node = getNode(id, root);
+        CategoryNode node = getNode(id);
         if (nonNull(node)) {
             getLevels(id);
             return node.keywords;
@@ -60,7 +62,8 @@ public class CategoryGraph {
         return Collections.emptyList();
     }
 
-    public CategoryNode getNode(int id, CategoryNode node) {
+    @Override
+    public CategoryNode getNode(int id) {
         //Check if the searched node is root
         if (isNull(root) || root.getId() == id) {
             return root;
@@ -68,7 +71,7 @@ public class CategoryGraph {
 
         //Search throw all root children node recursively
         for (CategoryNode child : root.children) {
-            CategoryNode foundNode = child.getId() == id ? child : getNode(id, child);
+            CategoryNode foundNode = child.getId() == id ? child : getNode(id);
             if (nonNull(foundNode)) {
                 return foundNode;
             }
@@ -76,6 +79,7 @@ public class CategoryGraph {
         return null;
     }
 
+    @Override
     public int getLevels(int id) {
         //If searched node is root return 0
         if (root.getId() == id) {
